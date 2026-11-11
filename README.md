@@ -159,23 +159,3 @@ logs\
 Year folders contain validated PDFs and metadata for successfully downloaded papers. Records without an available open PDF remain in the CSV exports and do not count toward the free-PDF target. The SQLite database makes duplicate detection and resume operations possible.
 
 OpenAlex cached-content downloads are limited to 80 attempts per UTC day by default to avoid unexpected API usage. This value can be changed with `openalex_content_downloads_per_day` in `config.toml` if required.
-
-## Tests
-
-Run the test suite from the activated virtual environment:
-
-```powershell
-python -m pytest
-```
-
-Tests use mocked API and PDF inputs; they do not download a real paper collection.
-
-## Building a shareable package
-
-To create a clean package for another user:
-
-```powershell
-python Build_Paperflow_Package.py
-```
-
-The generated `dist\Paperflow.zip` contains the source and launcher, but not your `.env`, downloaded papers, database, or logs. Each user should extract the archive and double-click `Start_Paperflow.bat`.
