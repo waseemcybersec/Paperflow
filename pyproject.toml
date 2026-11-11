@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "research-paper-discovery"
+version = "0.1.0"
+description = "Discover, classify, and archive research papers with provenance."
+requires-python = ">=3.11"
+dependencies = ["requests>=2.31", "python-dotenv>=1.0", "openpyxl>=3.1", "PyMuPDF>=1.24", "tenacity>=8.2", "tqdm>=4.66"]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.45"]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+paper-collector = "paper_collector.cli:main"
+paper-collector-ui = "paper_collector.webapp:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+paper_collector = ["static/*.html", "static/*.css", "static/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

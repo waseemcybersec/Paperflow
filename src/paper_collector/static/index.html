@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Paperflow · Research paper collector</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#top" aria-label="Paperflow home">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 4.5h12l6 6V27H7z"/><path d="M19 4.5v7h6M11 17h10M11 21h10"/></svg></span>
+        <span><b>paperflow</b><small>RESEARCH WORKSPACE</small></span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <a class="nav-item active" href="#setup"><span class="nav-icon">✳</span> New collection</a>
+      <a class="nav-item" href="#progress"><span class="nav-icon">◷</span> Collection progress</a>
+      <div class="sidebar-note">
+        <span class="note-icon">⌂</span>
+        <b>Your computer. Your papers.</b>
+        <p>Your database and PDFs stay on this device. Your key is sent to OpenAlex only to authenticate its API requests.</p>
+      </div>
+      <div class="sidebar-foot"><span class="green-dot"></span> Local app is ready</div>
+    </aside>
+
+    <main id="top" class="main-content">
+      <header class="topbar"><span>Research library <span class="crumb">/</span> New collection</span><span class="local-pill"><span class="green-dot"></span> SAVED LOCALLY</span></header>
+      <section class="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT LITERATURE SEARCH</div>
+          <h1>Find the papers.<br><em>Keep the knowledge.</em></h1>
+          <p>Choose your topic and preferences. Paperflow discovers research, checks for duplicates, downloads available open PDFs, and organizes everything on your computer.</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+          <div class="paper-card"><span class="card-kicker">YOUR LIBRARY</span><span class="card-title">Connected<br>ideas, clearly<br>organized.</span><span class="card-lines"></span><span class="card-tag">2000 — 2026</span></div>
+          <span class="float-dot dot-a"></span><span class="float-dot dot-b"></span><span class="float-dot dot-c"></span>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <section class="form-column" id="setup">
+          <div class="section-heading"><span class="step-number">01</span><div><h2>Build your search</h2><p>Set the topic and the papers you want to find.</p></div></div>
+          <form id="collection-form" autocomplete="off">
+            <div class="field-block">
+              <label for="queries">SEARCH KEYWORDS <span class="label-sub">Separate each phrase with a comma</span></label>
+              <div class="input-wrap search-wrap"><span class="input-symbol">⌕</span><textarea id="queries" rows="2" placeholder="e.g. perovskite neuromorphic computing, artificial synapse, memristor" required></textarea></div>
+              <div class="field-hint"><span class="hint-icon">i</span>Use specific phrases, then add broader related terms to expand your results.</div>
+            </div>
+
+            <div class="field-block">
+              <label>DISCOVERY SOURCES <span class="label-sub">Search sources independently; matches are deduplicated.</span></label>
+              <div class="source-grid">
+                <label class="source-card selected"><input type="checkbox" name="source" value="openalex" checked><span class="source-check"></span><span class="source-brand oa">O</span><span class="source-text"><b>OpenAlex</b><small>Broad scholarly index · your API key</small></span></label>
+                <label class="source-card selected"><input type="checkbox" name="source" value="semantic_scholar" checked><span class="source-check"></span><span class="source-brand ss">S</span><span class="source-text"><b>Semantic Scholar</b><small>Search and citation metadata</small></span></label>
+              </div>
+            </div>
+
+            <div class="field-block key-block" id="key-block">
+              <label for="openalex-key">YOUR OPENALEX API KEY <span class="required">REQUIRED FOR OPENALEX</span></label>
+              <div class="key-row"><div class="input-wrap key-wrap"><span class="input-symbol key-symbol">⌑</span><input id="openalex-key" type="password" placeholder="Paste your personal API key" autocomplete="new-password"><button class="reveal-key" id="reveal-key" type="button" aria-label="Show API key">SHOW</button></div><a class="get-key" href="https://openalex.org/settings/api" target="_blank" rel="noreferrer">Get a key ↗</a></div>
+              <div class="field-hint"><span class="hint-icon">i</span>Sent to OpenAlex from this computer to authenticate API requests. This app does not save the key in settings or logs.</div>
+            </div>
+
+            <div class="preferences-row">
+              <div class="field-block year-block">
+                <label>PUBLICATION YEARS <span class="label-sub">Select one or more</span></label>
+                <div class="year-toolbar"><span>2000–2026</span><span><button type="button" id="select-all-years">Select all</button><button type="button" id="clear-years">Clear</button></span></div>
+                <div id="year-options" class="year-options"></div>
+              </div>
+              <div class="field-block target-block">
+                <label for="target">PDF TARGET <span class="label-sub">Unique open PDFs</span></label>
+                <div class="target-input"><button type="button" class="stepper" data-step="-25" aria-label="Decrease target">−</button><input id="target" type="number" min="1" max="5000" placeholder="e.g. 250" required><button type="button" class="stepper" data-step="25" aria-label="Increase target">+</button></div>
+                <span class="target-caption">Search stops when this many PDFs are saved.</span>
+              </div>
+            </div>
+
+            <div class="field-block">
+              <label>PAPER TYPES <span class="label-sub">Choose which publication types to include</span></label>
+              <div class="type-options">
+                <label class="type-chip checked"><input type="checkbox" name="paper-type" value="research" checked><span class="chip-tick">✓</span><span><b>Research articles</b><small>Original journal articles</small></span></label>
+                <label class="type-chip"><input type="checkbox" name="paper-type" value="review"><span class="chip-tick">✓</span><span><b>Reviews</b><small>Review and survey papers</small></span></label>
+                <label class="type-chip"><input type="checkbox" name="paper-type" value="preprint"><span class="chip-tick">✓</span><span><b>Preprints</b><small>Repository manuscripts</small></span></label>
+                <label class="type-chip"><input type="checkbox" name="paper-type" value="conference"><span class="chip-tick">✓</span><span><b>Conference papers</b><small>Proceedings articles</small></span></label>
+                <label class="type-chip"><input type="checkbox" name="paper-type" value="book"><span class="chip-tick">✓</span><span><b>Books & chapters</b><small>Books and book sections</small></span></label>
+                <label class="type-chip"><input type="checkbox" name="paper-type" value="other"><span class="chip-tick">✓</span><span><b>Other indexed types</b><small>Other source categories</small></span></label>
+              </div>
+              <div class="field-hint"><span class="hint-icon">i</span>Downloads available open PDFs for the types you select. Paywalled items are saved as linked metadata for later access.</div>
+            </div>
+
+            <div class="field-block location-block">
+              <label for="workspace">SAVE COLLECTION UNDER <span class="label-sub">A separate database is kept in this workspace</span></label>
+              <div class="location-row"><div class="input-wrap path-wrap"><span class="input-symbol">⌂</span><input id="workspace" type="text" required></div><button type="button" id="browse-folder" class="browse-button">Browse folders</button></div>
+              <div class="folder-preview"><span class="folder-icon">▱</span><span>Creates <b>Research_Papers</b> with year folders, metadata CSVs, reports, and a duplicate-safe database.</span></div>
+            </div>
+
+            <div class="submit-row"><div class="privacy-mini"><span class="lock-icon">♢</span><span>Private by design<br><small>This app runs only on your computer.</small></span></div><button class="primary-button" id="start-button" type="submit"><span>Start collecting</span><span class="button-arrow">→</span></button></div>
+          </form>
+        </section>
+
+        <aside class="side-column">
+          <section class="progress-panel" id="progress">
+            <div class="panel-top"><div><div class="panel-eyebrow">LIVE STATUS</div><h3>Your collection</h3></div><span class="status-badge idle" id="status-badge"><span class="status-dot"></span><span id="status-label">READY</span></span></div>
+            <div class="progress-number"><strong id="saved-count">0</strong><span> / <span id="target-count">0</span> PDFs</span></div>
+            <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+            <p class="status-message" id="status-message">Your next collection will appear here.</p>
+            <div class="progress-stats"><div><b id="processed-count">0</b><span>records checked</span></div><div><b id="percent-count">0%</b><span>of PDF target</span></div></div>
+            <button type="button" id="stop-button" class="stop-button" disabled>Stop safely</button>
+            <div class="progress-error" id="progress-error" hidden></div>
+          </section>
+
+          <section class="how-panel"><div class="how-title"><span class="sparkle">✳</span><h3>What happens next</h3></div><ol class="steps-list"><li><span class="step-icon">⌕</span><span><b>Search & match</b><small>Find papers across your selected sources.</small></span></li><li><span class="step-icon">⎇</span><span><b>Check duplicates</b><small>Match by DOI; compare title, year, and authors when DOI is missing.</small></span></li><li><span class="step-icon">↓</span><span><b>Save & organize</b><small>PDFs and metadata are filed by publication year.</small></span></li></ol></section>
+
+          <section class="output-panel"><span class="output-icon">▤</span><div><b>Your library folder</b><p id="output-location">No collection run yet</p><button type="button" id="open-folder" disabled>Open collection folder <span>↗</span></button></div></section>
+          <div class="footnote">Open access PDFs download automatically. Subscription access depends on your institution and publisher.</div>
+        </aside>
+      </div>
+      <footer><span>paperflow <span class="footer-dot">·</span> Local research assistant</span><span>Made for careful discovery.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+[collection]
+min_year = 2000
+free_pdf_target = 400
+openalex_content_downloads_per_day = 80
+output_dir = "Research_Papers"
+database = "data/collection.sqlite3"
+request_timeout_seconds = 30
+
+[discovery]
+page_size = 100
+semantic_scholar_page_size = 100
+queries = [
+  "perovskite neuromorphic computing",
+  "artificial synapse perovskite",
+  "perovskite-based artificial synapse",
+  "neuromorphic device perovskite",
+  "halide perovskite synaptic device",
+  "perovskite memristor",
+  "neuromorphic perovskite",
+  "synaptic transistor perovskite"
+]
